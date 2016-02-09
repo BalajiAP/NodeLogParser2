@@ -1,0 +1,16 @@
+{
+	"users":
+		[
+		 
+		 	{
+		 		  "name": "pandu",
+		 		  "password": "test@123"
+		 	},
+		 	{
+		 		  "name": "kalai",
+		 		  "password": "pass@123"
+		 	}
+		 
+		 ]
+
+}

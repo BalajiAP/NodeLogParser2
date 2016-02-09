@@ -1,0 +1,224 @@
+<!-- AUI Framework -->
+<!DOCTYPE html>
+    <html>
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>LogParser</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <!-- Favicons -->
+
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/icons/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/icons/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/icons/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/images/icons/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="assets/images/icons/favicon.png">
+
+        <!--[if lt IE 9]>
+          <script src="assets/js/minified/core/html5shiv.min.js"></script>
+          <script src="assets/js/minified/core/respond.min.js"></script>
+        <![endif]-->
+
+        <!--[if lt IE 7]>
+        <link rel="stylesheet" type="text/css" href="assets/css/minified/icons-ie7.min.css">
+        <![endif]-->
+
+        <!-- AgileUI CSS Core -->
+
+        <link rel="stylesheet" type="text/css" href="assets/css/minified/aui-production.min.css">
+
+        <!-- Theme UI -->
+
+        <link id="layout-theme" rel="stylesheet" type="text/css" href="assets/themes/minified/agileui/color-schemes/layouts/default.min.css">
+        <link id="elements-theme" rel="stylesheet" type="text/css" href="assets/themes/minified/agileui/color-schemes/elements/default.min.css">
+
+        <!-- AgileUI Responsive -->
+
+        <link rel="stylesheet" type="text/css" href="assets/themes/minified/agileui/responsive.min.css">
+
+        <!-- AgileUI JS -->
+
+        <script type="text/javascript" src="assets/js/minified/aui-production.min.js"></script>
+
+        <script>
+        
+
+
+	        $(document).ready(function(){
+	            $("#searchLogs").click(function(){
+	            	loadData();
+	            });
+	            function loadData(){
+	            	  var searchString=$("#searchString").val();;
+	            	  var environment=$("#environment").val();
+	            	  var fromDate=$("#fromDate").val();;
+	            	  var fromTime=$("#fromTime").val();
+	            	  var toDate=$("#toDate").val();;
+	            	  var toTime=$("#toTime").val();
+	
+	            	  $.ajax({
+	            	              type : "get",
+	            	              url : "/logSearchFunction",
+	            	              dataType : 'text',
+	            	              data : "searchString=" + searchString + "&environment="+environment + "&fromDate="+fromDate + "&fromTime="+fromTime
+	            	              + "&toDate="+toDate + "&toTime="+toTime,
+	
+	            	              success : function(response) {
+	       							alert(response);
+	            	                
+	            	              },
+	            	              error : function(e) {
+	            	            	  alert(e);
+	            	              }
+	            	       });
+	 
+	            	  
+	            	  }
+	
+	            
+	        });
+        
+        
+            jQuery(window).load(
+                function(){
+
+                    var wait_loading = window.setTimeout( function(){
+                      $('#loading').slideUp('fast');
+                      jQuery('body').css('overflow','auto');
+                    },500
+                    );
+
+                });
+        </script>
+
+    </head>
+    <body style="overflow: hidden;">
+        
+
+        <div id="loading" class="ui-front loader ui-widget-overlay solid-white opacity-100">
+            <img src="assets/images/loader-dark.gif" alt="">
+        </div>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+		
+		<!--Log Parser Header -->
+		
+        <div id="login-page" class="mrg25B">
+            <div id="page-header" class="clearfix">
+                <div id="page-header-wrapper" class="clearfix">
+                    <div id="header-logo">
+                        LogParser <i class="opacity-80">v1.0</i>
+
+                        <a href="#" class="tooltip-button" data-placement="bottom" title="Close sidebar" id="close-sidebar">
+                            <i class="glyph-icon icon-align-justify"></i>
+                        </a>
+                        <a href="#" class="tooltip-button hidden" data-placement="bottom" title="Open sidebar" id="rm-close-sidebar">
+                            <i class="glyph-icon icon-align-justify"></i>
+                        </a>
+                        <a href="#" class="tooltip-button hidden" title="Navigation Menu" id="responsive-open-menu">
+                            <i class="glyph-icon icon-align-justify"></i>
+                        </a>
+                    </div>
+                </div>
+            </div><!-- #page-header -->
+        </div>
+		
+		
+<h3>Log Parser</h3>
+<p class="font-gray-dark">
+    Please Enter the Search Parameters
+</p>
+
+<!-- Search Form -->
+<div id="LogSearch"  class="example-box">
+    <div class="example-code">
+
+        <form id="demo-form-2" action="#" class="col-md-10 center-margin" method="">
+            <div class="form-row">
+                <div class="form-label col-md-2">
+                    <label for="SearchString">
+                        SearchString:
+                        <span class="required">*</span>
+                    </label>
+                </div>
+                <div class="form-input col-md-6">
+                    <input type="text" id="searchString" name="searchString" data-trigger="change" data-required="true" class="parsley-validated">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-label col-md-2">
+                    <label for="">
+                        Environment:
+                        <span class="required">*</span>
+                    </label>
+                </div>
+                <div class="form-input col-md-6">
+                    <select id="environment" name="environment">
+                        <option>D1</option>
+                        <option>S1</option>
+                    </select>
+                </div>
+            </div>
+			
+			<div class="form-row">
+					<div class="form-label col-md-2">
+						<label for="from">
+							FromDate:
+						</label>
+					</div>
+					<div class="form-input col-md-3">
+						<input type="text" size="10" id="fromDate" class="fromDate" name="from">
+					</div>	
+					<div class="form-label col-md-2">
+						<label for="timepicker_24">
+							FromTime:
+						</label>
+					</div>
+					<div class="form-input bootstrap-timepicker dropdown col-md-3">
+						<input class="timepicker input" id="fromTime" name="timepicker_24" type="text">
+					</div>
+			</div>
+			
+			<div class="form-row">
+					<div class="form-label col-md-2">
+						<label for="from">
+							ToDate:
+						</label>
+					</div>
+					<div class="form-input col-md-3">
+						<input type="text" size="10" id="toDate" class="toDate" name="from">
+					</div>	
+					<div class="form-label col-md-2">
+						<label for="timepicker_24">
+							ToTime:
+						</label>
+					</div>
+					<div class="form-input bootstrap-timepicker dropdown col-md-3">
+						<input class="timepicker input" id="toTime" name="timepicker_24" type="text">
+					</div>
+			</div>
+			
+
+            <div class="form-row">
+                <input type="hidden" name="superhidden" id="superhidden">
+                <div class="form-input col-md-10 col-md-offset-5">
+                    <a href="javascript:;" class="btn medium primary-bg radius-all-4" id="searchLogs" onclick="javascript:$(&apos;#demo-form-2&apos;).parsley( &apos;validate&apos; );" title="Validate!">
+                        <span class="button-content">
+                            SearchLogs
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+    
+</div>
+
+    </body>
+</html>
