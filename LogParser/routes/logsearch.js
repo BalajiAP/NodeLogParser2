@@ -37,7 +37,7 @@ exports.searchLogFunction = function(req, res){
 	var toDate=req.query.toDate.date("YYYY-MM-DD");
 	var toTime=req.query.toTime;
 	var searchResultFile=null;
-	
+	var searchFileExists=false;
 	console.log('searchString:'+searchString);
 	console.log('environment:'+environment);
 	console.log('fromDate:'+fromDate);
@@ -52,17 +52,18 @@ exports.searchLogFunction = function(req, res){
 	var searchId=searchString+'_'+environment+'_'+fromDate+'_'+fromTime+'_'+toDate+'_'+toTime;
 	searchId=searchId.replace(/[: ]/g,'_');
 	searchResultFile=searchId+'.txt';
-	console.log('searchResultFile'+searchResultFile);
+	console.log('searchResultFile:'+searchResultFile);
 	
 	
-	for(var i=0;i<searchHistory.search_history.length;i++){
+/*	for(var i=0;i<searchHistory.search_history.length;i++){
 		var  searchLogEntry=searchHistory.search_history[i];
+		console.log('searchLogEntry:'+searchLogEntry);
 		if(searchId == configName){
 			searchFileExists = true;
 			
 		}
-	}
-	console.log('searchFileExists'+searchFileExists);
+	}*/
+	console.log('searchFileExists:'+searchFileExists);
 
 	
 	/*
@@ -132,6 +133,9 @@ exports.searchLogFunction = function(req, res){
 			var idx = line.indexOf(searchString);
 			if (idx !== -1) {
 
+				fs.appendFile(searchResultFile,line+'\n', function (err) {
+				});
+				
 				var wordsArray = line.split(' ');
 				var logTimeStamp= wordsArray[0]+' '+wordsArray[1].split(',')[0];
 				var logTimeStamp=logTimeStamp.replace(/[\[\]]/g,'');
@@ -143,10 +147,7 @@ exports.searchLogFunction = function(req, res){
 //				console.log(Object.prototype.toString.call(logDate));
 				
 				if(isValidDate(logDate)){
-					
 					console.log('ValidTimestamp:'+logTimeStamp);
-					fs.appendFile(searchResultFile,line+'\n', function (err) {
-					});
 				}
 
 
@@ -167,10 +168,10 @@ exports.searchLogFunction = function(req, res){
 	}
 
 
-		var result='<a href="download/acme-doc-2.0.1.txt" download="searchResultFile.txt">Download Text</a>';
-		res.writeHead(200, {'Content-Type': 'text/xml'});
-		res.write(result);
-		res.end();
+	//	var result='<a href="download/acme-doc-2.0.1.txt" download="searchResultFile.txt">Download Text</a>';
+	//	res.writeHead(200, {'Content-Type': 'text/xml'});
+	//	res.write(result);
+	//	res.end();
 	
 
 
