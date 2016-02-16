@@ -1,0 +1,73 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'jsonfile' ]
+2 info using npm@2.10.1
+3 info using node@v0.12.4
+4 verbose install initial load of D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\package.json
+5 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\body-parser\package.json
+6 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\client-sessions\package.json
+7 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\cookie-parser\package.json
+8 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\date-format-lite\package.json
+9 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\debug\package.json
+10 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\ejs\package.json
+11 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\express\package.json
+12 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\express-session\package.json
+13 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\fs-finder\package.json
+14 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\moment\package.json
+15 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\morgan\package.json
+16 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\node-jsonfile-master\package.json
+17 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\serve-favicon\package.json
+18 verbose installManyTop reading scoped package data from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\node_modules\zlib\package.json
+19 info package.json client-sessions@0.7.0 No license field.
+20 info package.json zlib@1.0.5 zlib is also the name of a node core module.
+21 info package.json zlib@1.0.5 No license field.
+22 verbose readDependencies loading dependencies from D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser\package.json
+23 verbose install jsonfile is installed as 2.2.3
+24 silly cache add args [ 'jsonfile', null ]
+25 verbose cache add spec jsonfile
+26 silly cache add parsed spec { raw: 'jsonfile',
+26 silly cache add   scope: null,
+26 silly cache add   name: 'jsonfile',
+26 silly cache add   rawSpec: '',
+26 silly cache add   spec: '*',
+26 silly cache add   type: 'range' }
+27 silly addNamed jsonfile@*
+28 verbose addNamed "*" is a valid semver range for jsonfile
+29 silly addNameRange { name: 'jsonfile', range: '*', hasData: false }
+30 silly mapToRegistry name jsonfile
+31 silly mapToRegistry using default registry
+32 silly mapToRegistry registry https://registry.npmjs.org/
+33 silly mapToRegistry uri https://registry.npmjs.org/jsonfile
+34 verbose addNameRange registry:https://registry.npmjs.org/jsonfile not in flight; fetching
+35 verbose request uri https://registry.npmjs.org/jsonfile
+36 verbose request no auth needed
+37 info attempt registry request try #1 at 4:31:03 PM
+38 verbose request id ec186ce93690f53c
+39 http request GET https://registry.npmjs.org/jsonfile
+40 info retry will retry, error on last attempt: Error: connect ETIMEDOUT
+41 info attempt registry request try #2 at 4:31:34 PM
+42 http request GET https://registry.npmjs.org/jsonfile
+43 info retry will retry, error on last attempt: Error: connect ETIMEDOUT
+44 info attempt registry request try #3 at 4:32:56 PM
+45 http request GET https://registry.npmjs.org/jsonfile
+46 verbose stack Error: connect ETIMEDOUT
+46 verbose stack     at exports._errnoException (util.js:746:11)
+46 verbose stack     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1010:19)
+47 verbose cwd D:\WSO2\NodeLogParser2-master\NodeLogParser2-master\LogParser
+48 error Windows_NT 6.1.7601
+49 error argv "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "jsonfile"
+50 error node v0.12.4
+51 error npm  v2.10.1
+52 error code ETIMEDOUT
+53 error errno ETIMEDOUT
+54 error syscall connect
+55 error network connect ETIMEDOUT
+55 error network This is most likely not a problem with npm itself
+55 error network and is related to network connectivity.
+55 error network In most cases you are behind a proxy or have bad network settings.
+55 error network
+55 error network If you are behind a proxy, please make sure that the
+55 error network 'proxy' config is set properly.  See: 'npm help config'
+56 verbose exit [ 1, true ]

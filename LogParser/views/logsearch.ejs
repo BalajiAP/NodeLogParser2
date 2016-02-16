@@ -44,36 +44,89 @@
         <script type="text/javascript" src="assets/js/minified/aui-production.min.js"></script>
 
         <script>
+   
+        var filename = '';
+        function downloadFile(){
+        	 location.href = "http://localhost:3000/"+filename+"?userName="+getParameterByName('userName');
+        }
         
-
+        function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+        
+		
 
 	        $(document).ready(function(){
+	         document.getElementById("my_div").className = "hidden";
 	            $("#searchLogs").click(function(){
 	            	loadData();
 	            });
+	            
+	             $("#homePage").click(function(){
+            	location.href = "http://localhost:3000/login"
+            	});
+            
 	            function loadData(){
-	            	  var searchString=$("#searchString").val();;
+	            	  var searchString=$("#searchString").val();
 	            	  var environment=$("#environment").val();
-	            	  var fromDate=$("#fromDate").val();;
+	            	  var fromDate=$("#fromDate").val();
 	            	  var fromTime=$("#fromTime").val();
-	            	  var toDate=$("#toDate").val();;
+	            	  var toDate=$("#toDate").val();
 	            	  var toTime=$("#toTime").val();
-	
+	            	  var userName=getParameterByName('userName');
+	            	 
+	                  if(fromDate!=''&&toDate!=''&&searchString!=''){
+	            	  $("#searchLogs").unbind("click");
+	            	  $("#searchString").prop('disabled', true);
+	            	  $("#environment").prop('disabled', true);
+	            	  $("#fromDate").prop('disabled', true);
+	            	  $("#fromTime").prop('disabled', true);
+	            	  $("#toDate").prop('disabled', true);
+	            	  $("#toTime").prop('disabled', true);
+	            	  
+	            	
 	            	  $.ajax({
 	            	              type : "get",
 	            	              url : "/logSearchFunction",
 	            	              dataType : 'text',
 	            	              data : "searchString=" + searchString + "&environment="+environment + "&fromDate="+fromDate + "&fromTime="+fromTime
-	            	              + "&toDate="+toDate + "&toTime="+toTime,
+	            	              + "&toDate="+toDate + "&toTime="+toTime+"&userName="+userName,
 	
 	            	              success : function(response) {
-	       							alert(response);
+	       							if(response!==''){
+	       							 alert('Log file created successfully');
+	       							 filename=response;
+	       							 
+	       							 document.getElementById("my_div").className = "visible";
+	       							 
+	       							 
+	       							 $("#searchLogs").bind("click", function(){
+	            						loadData();
+	            					});
+	            			         $("#searchString").prop('disabled', false);
+	            	                 $("#environment").prop('disabled', false);
+	            	                 $("#fromDate").prop('disabled', false);
+	            	                 $("#fromTime").prop('disabled', false);
+	            	                 $("#toDate").prop('disabled', false);
+	            	                 $("#toTime").prop('disabled', false);
+	       							
+	       							}
 	            	                
 	            	              },
 	            	              error : function(e) {
-	            	            	  alert(e);
+	            	            	 // alert(e);
 	            	              }
 	            	       });
+	            	       }else{
+	            	       alert("Please fill the mandatory fields");
+	            	       $("#searchString").focus();
+	            	       }
 	 
 	            	  
 	            	  }
@@ -157,7 +210,7 @@
                     </label>
                 </div>
                 <div class="form-input col-md-6">
-                    <select id="environment" name="environment">
+                    <select id="environment" name="environment"  style="width: 255px">
                         <option>D1</option>
                         <option>S1</option>
                     </select>
@@ -171,7 +224,7 @@
 						</label>
 					</div>
 					<div class="form-input col-md-3">
-						<input type="text" size="10" id="fromDate" class="fromDate" name="from">
+						<input type="text" size="10" id="fromDate" class="fromDate" name="from" data-required="true" class="parsley-validated">
 					</div>	
 					<div class="form-label col-md-2">
 						<label for="timepicker_24">
@@ -190,7 +243,7 @@
 						</label>
 					</div>
 					<div class="form-input col-md-3">
-						<input type="text" size="10" id="toDate" class="toDate" name="from">
+						<input type="text" size="10" id="toDate" class="toDate" name="from" data-required="true" class="parsley-validated">
 					</div>	
 					<div class="form-label col-md-2">
 						<label for="timepicker_24">
@@ -207,10 +260,19 @@
                 <input type="hidden" name="superhidden" id="superhidden">
                 <div class="form-input col-md-10 col-md-offset-5">
                     <a href="javascript:;" class="btn medium primary-bg radius-all-4" id="searchLogs" onclick="javascript:$(&apos;#demo-form-2&apos;).parsley( &apos;validate&apos; );" title="Validate!">
-                        <span class="button-content">
+                        <span id="searchLogsSpan" class="button-content">
                             SearchLogs
                         </span>
                     </a>
+                      <a href="javascript:;" class="btn medium primary-bg radius-all-4" id="homePage" onclick="javascript:$(&apos;#demo-form-2&apos;).parsley( &apos;validate&apos; );" title="Validate!">
+                        <span id="homePageSpan" class="button-content">
+                            HomePage
+                        </span>
+                    </a>
+                    
+                     <div id="my_div" class="visible">
+      					<a onClick="downloadFile()">Link to download the file </a>
+    				</div>
                 </div>
             </div>
 

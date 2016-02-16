@@ -46,10 +46,26 @@ app.use(session({
 app.use('/', routes);
 app.get('/login', login.info);
 app.get('/getLogin', login.validate);
-app.get('/logSearchForm',logsearch.searchForm);
+app.get('/saveLogin', login.saveData);
+
+app.get('/logSearchForm',function(req,res){
+	console.log("THE INPUTE PARAMETER IS " + JSON.stringify(req.query.userName));
+	res.render('logsearch',{username:req.query.userName});
+});
+
+
+app.get('/signUp',login.signUp);
 app.get('/logSearchFunction',logsearch.searchLogFunction);
 
+app.get('/:file(*)', function(req, res, next){
+	  var file = req.params.file
+	    , path = __dirname + '/'+file;
+	    console.log("Path" + path);
+	    console.log(req.params.userName);
+	    console.log(JSON.stringify(req.body));
 
+	  res.download(file);
+	});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

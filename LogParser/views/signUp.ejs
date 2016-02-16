@@ -2,8 +2,7 @@
 <!DOCTYPE html>
     <html>
     <head>
-
-        <meta charset="utf-8">
+         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>LogParser</title>
         <meta name="description" content="">
@@ -20,6 +19,7 @@
         <!--[if lt IE 9]>
           <script src="assets/js/minified/core/html5shiv.min.js"></script>
           <script src="assets/js/minified/core/respond.min.js"></script>
+          <script src="assets/js/minified/core/bootstrap.min.js"></script>
         <![endif]-->
 
         <!--[if lt IE 7]>
@@ -39,6 +39,11 @@
 
         <link rel="stylesheet" type="text/css" href="../_assets/themes/agileui/responsive.html">
         <link rel="stylesheet" type="text/css" href="../_assets/css/helpers/responsive-elements.html">
+        
+      
+<script type="text/javascript">
+
+</script>
 
         <!-- AgileUI JS -->
 
@@ -46,59 +51,50 @@
 
         <script>
         
-        function init(){
-       		 document.getElementById("login_username").focus();
-          }
+       
         
-        
-        	$(document).keypress(function (e) {
-    			if (e.keyCode == 13 && $("#login_username").val()!='' && $("#login_pass").val()!='') {
-        		$("#login").click();
-    		}
-			});	
-		
-        $(document).ready(function(){ 
-       	    $("#login").focus();   
-            $("#login").click(function(){
-            	loadData();
+        $(document).ready(function(){
+            $("#signUp").click(function(){
+            	saveData();
             });
             
-             $("#register").click(function(){
-            	location.href = "http://localhost:3000/signUp"
+             $("#homePage").click(function(){
+            	location.href = "http://localhost:3000/login"
             });
             
-            function loadData(){
-            	  var userName=$("#login_username").val();
-            	  var password=$("#login_pass").val();
-            	  
-            	   if(userName!=''&&password!=''){
-
+            function saveData(){
+         
+            	  var userName=$("#new_username").val();
+            	  var password=$("#new_pass").val();
+            	  if(userName!=''&&password!=''){
             	  $.ajax({
             	              type : "get",
-            	              url : "/getLogin",
+            	              url : "/saveLogin",
             	              dataType : 'text',
             	              data : "userName=" + userName + "&password="+password,
 
             	              success : function(response) {
-            	            	  var validationresult = JSON.parse(response).validationResult;
-            	            	  if( validationresult == true ){
-            	               		  location.href = "http://localhost:3000/logSearchForm?userName="+ userName;
-            	            	  }
-            	            	  else{
-            	            		  alert("Invalid UserId\Password");
-            	            	  }
-            	                
+            	              if(response=='User already exists'){
+            	              alert(response);
+            	              $("#new_username").val('');
+            	              $("#new_pass").val('');
+            	              $("#new_username").focus();
+            	              }
+            	              
+            	               if(response=='User created successfully'){
+            					alert('New User Created successfully.');
+            	               
+            	              	location.href = "http://localhost:3000/login";            	            	
+            	               } 
             	              },
             	              error : function(e) {
-            	            	  alert(e);
+            	            	  Alert.render(e);
             	              }
             	       });
-            	       }else{
-            	        	alert("UserName and password are mandatory fields");
-            	        	$("#login_username").focus();
-            	       
-            	       }
- 
+            	     }else
+            	       alert("Username and password are mandatory fields");
+            	       $("#new_username").focus();
+ 	
             	  
             	  }
 
@@ -120,7 +116,8 @@
         </script>
 
     </head>
-    <body style="overflow: hidden;" onLoad="init()">
+    <body style="overflow: hidden;">
+   
 
         <div id="loading" class="ui-front loader ui-widget-overlay solid-white opacity-100">
             <img src="assets/images/loader-dark.gif" alt="">
@@ -171,7 +168,7 @@
                             <div class="glyph-icon icon-separator">
                                 <i class="glyph-icon icon-user"></i>
                             </div>
-                            <span>Login</span>
+                            <span>New User - Sign Up</span>
                         </h3>
                         <div class="content-box-wrapper pad20A pad0B">
                             <div class="form-row">
@@ -184,7 +181,7 @@
                                 <div class="form-input col-md-10">
                                     <div class="form-input-icon">
                                         <i class="glyph-icon icon-envelope-alt ui-state-default"></i>
-                                        <input placeholder="Username\Email" data-type="email" data-trigger="change" data-required="true" type="text" name="login_username" id="login_username">
+                                        <input placeholder="Username\Email" data-type="email" data-trigger="change" data-required="true" type="text" name="login_username" id="new_username">
                                     </div>
                                 </div>
                             </div>
@@ -199,36 +196,28 @@
                                 <div class="form-input col-md-10">
                                     <div class="form-input-icon">
                                         <i class="glyph-icon icon-unlock-alt ui-state-default"></i>
-                                        <input placeholder="Password" data-trigger="keyup" data-rangelength="[3,25]" type="password" name="login_pass" id="login_pass" data-required="true">
+                                        <input placeholder="Password" data-trigger="keyup" data-rangelength="[3,25]" type="password" name="login_pass" id="new_pass">
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-checkbox-radio col-md-6">
-                                    <input type="checkbox" class="custom-checkbox" name="remember-password" id="remember-password">
-                                    <label for="remember-password" class="pad5L">Remember password?</label>
-                                </div>
-                                <div class="form-checkbox-radio text-right col-md-6">
-                                    <a href="#" class="toggle-switch" switch-target="#login-forgot" switch-parent="#login-form" title="Recover password">Forgot your password?</a>
-                                </div>
-                            </div>
+                           
                         </div>
                         <div class="button-pane">
-                            <button type="button" class="btn large primary-bg text-transform-upr font-bold font-size-11 radius-all-4" id="login" title="Validate!">
+                            <button type="button" class="btn large primary-bg text-transform-upr font-bold font-size-11 radius-all-4" id="signUp" title="Validate!">
                                 <span class="button-content">
-                                    Login
+                                    Sign Up
                                 </span>
                             </button>
-                            <button type="button" class="btn large primary-bg text-transform-upr font-bold font-size-11 radius-all-4" id="register" title="Register">
+                             <button type="button" class="btn large primary-bg text-transform-upr font-bold font-size-11 radius-all-4" id="homePage" title="Validate!">
                                 <span class="button-content">
-                                   Sign Up
+                                    Go Home
                                 </span>
                             </button>
                         </div>
                     </div>
 
                     <div class="divider"></div>
-                    
+                   
                     <div class="ui-dialog mrg5T hide" id="login-forgot" style="position: relative !important;">
                         <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
                             <span class="ui-dialog-title">Recover password</span>
