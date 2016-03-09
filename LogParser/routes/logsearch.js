@@ -11,16 +11,8 @@ var date=require("date-format-lite");
 var zlib = require('zlib');
 var moment=require('moment');
 var dateFormat = require("date-format-lite");
-var searchHistory=require('../search_history_log.json');
 var mime = require('mime');
 var userName;
-/**
- * *******************************************
- * Function to display the Log search page
- * *******************************************
- */
-
-
 
 /**
  * ***********************************************************************
@@ -41,6 +33,7 @@ exports.searchLogFunction = function(req, res){
 	var toTime=req.query.toTime;
 	userName=req.query.userName;
 	var searchResultFile=null;
+	var searchMatchFound=false;
 	
 	console.log('searchString:'+searchString);
 	console.log('environment:'+environment);
@@ -51,42 +44,19 @@ exports.searchLogFunction = function(req, res){
 	console.log('toTime:'+toTime);
 	
 	/*
-	 *Check for the current search parameters in the search history log 
+	 *Search File Path formation
 	 */
 	var searchId=searchString+'_'+environment+'_'+fromDate+'_'+fromTime+'_'+toDate+'_'+toTime;
 	searchId=searchId.replace(/[: ]/g,'_');
 	searchResultFile=searchId+'.txt';
 	var appDir1 = path.dirname(require.main.filename);
-	console.log("THE DIR IS " + appDir1);
+	console.log("Directory :" + appDir1);
 	var b = appDir1+ '/userLogs/'+userName+'/' +searchResultFile;
-	console.log(b);
-	
-	
-	console.log('searchResultFile'+JSON.stringify(searchHistory));
-	
-	
-	
+	console.log("SearchResultFileLocation:"+b);
 	
 	
 	/*
-	 * Checks if the SearchResultFile already exists 
-	 * Creates SearchResultFile if not already present.
-	 * 
-	 */
-//	var searchResultFile=searchString+'_'+environment+'_'+fromDate+'_'+fromTime+'_'+toDate+'_'+toTime+'.txt';
-
-	fs.stat(searchResultFile, function(err, stat) {
-		if(err == null) {
-			console.log('File exists');
-		} else if(err.code == 'ENOENT') {
-			console.log("INSIDE ERROR");
-			//fs.writeFile(appDir1+ '/userLogs/'+userName+'/' +searchResultFile,'');
-		} else {
-			console.log('Some other error: ', err.code);
-		}
-	});
-
-	/*
+	 * If searchresultfile exists the same is returned else
 	 * Gets all the file names in the Log Directory and ,
 	 * Inputs the file names to the Search Function
 	 */
@@ -96,22 +66,27 @@ exports.searchLogFunction = function(req, res){
 			  console.log("Exists");
 			  var filename = path.basename(searchResultFile);
 			  var appDir = path.dirname(require.main.filename);
+			  console.log("Existing File Path:"+appDir+ '/userLogs/'+userName+'/' +searchResultFile);
 			  res.write(appDir+ '/userLogs/'+userName+'/' +searchResultFile);	
 			  res.end();
 		  }else{
 			   fileList=getFiles('../LogParser/Logs');
+			   console.log("FileList:"+fileList);
+			   actualFileCount = fileList.length;
+			   console.log("Actual count of Log Files:"+actualFileCount);
+			   
 			   for (var i = 0; i < fileList.length; i++){
-					console.log(fileList[i]);
+					console.log("File Number "+i+":"+fileList[i]);
 					searchText(fileList[i],i);
-					actualFileCount = fileList.length;		
-					console.log("The value of i is " + i);
-					console.log("The file list" + fileList.length);			
-					//console.log(fileList.length);
 				}
-				console.log(fileList); 
+				 
 		  }
 		});
 	
+	/*
+	 *Function to return list of file in a specified directory 
+	 * 
+	 */
 	
 	function getFiles (dir, files_){
 		files_ = files_ || [];
@@ -173,9 +148,13 @@ exports.searchLogFunction = function(req, res){
 					//console.log(searchStr);
 					if(searchStr >  fromDateStr && searchStr < toDateStr){
 						//console.log("Lines to be written to file " + line);
+						searchMatchFound=true;
 						fs.appendFile(appDir1+ '/userLogs/'+userName+'/' +searchResultFile,line+'\n', function (err) {
+							if (err != null){
+								console.log("Error while writing to Search Result File:"+err);
+							}
 							
-
+								
 					});
 				}
 			}
@@ -191,11 +170,19 @@ exports.searchLogFunction = function(req, res){
 				var appDir = path.dirname(require.main.filename);
 				
 				fs.appendFile(appDir+ '/searchHistory.txt','\n UserName :'+ userName+ '\t\t fileSearchKeywords\t' + filename.substring(0, filename.length - 3) + '\n', function (err) {
-					
+					if (err != null){
+						console.log("Error while writing to Search Log File:"+err);
+					}
 
 				});
 				console.log("nside equal" +appDir+'/'+filename);
-				res.write(appDir+ '/userLogs/'+userName+'/' +searchResultFile);	
+				if(searchMatchFound == true){
+					res.write(appDir+ '/userLogs/'+userName+'/' +searchResultFile);	
+					
+				}
+				else{
+					res.write('MatchNotFound');
+				}
 				res.end();
 			}
 		}).on('end',function(){

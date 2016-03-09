@@ -100,10 +100,15 @@
 	
 	            	              success : function(response) {
 	       							if(response!==''){
-	       							 alert('Log file created successfully');
-	       							 filename=response;
-	       							 
-	       							 document.getElementById("my_div").className = "visible";
+	       								if(response == 'MatchNotFound' ){
+	       								 alert('Match Not Found');
+	       								}
+	       								else{
+	              							 alert('Log file created successfully');
+	    	       							 filename=response;   		
+	    	       							 document.getElementById("my_div").className = "visible";
+	       								}
+	
 	       							 
 	       							 
 	       							 $("#searchLogs").bind("click", function(){
@@ -269,9 +274,9 @@
                             HomePage
                         </span>
                     </a>
-                    
+                     
                      <div id="my_div" class="visible">
-      					<a onClick="downloadFile()">Link to download the file </a>
+      					<b><a onClick="downloadFile()">Click to download the Search Result </a></b>
     				</div>
                 </div>
             </div>

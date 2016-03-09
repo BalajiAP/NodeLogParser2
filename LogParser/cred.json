@@ -1,8 +1,16 @@
 {
   "users": [
     {
+      "name": "bala",
+      "password": "pass@123"
+    },
+    {
+      "name": "biju",
+      "password": "pass@123"
+    },
+    {
       "name": "pandu",
-      "password": "test@123"
+      "password": "pass@123"
     }
   ]
 }
